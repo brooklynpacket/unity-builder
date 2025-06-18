@@ -9,26 +9,7 @@ namespace UnityBuilderAction.Input
   {
     public static void Apply(Dictionary<string, string> options)
     {
-#if UNITY_2019_1_OR_NEWER
-      if (options.TryGetValue("androidKeystoreName", out string keystoreName) && !string.IsNullOrEmpty(keystoreName))
-      {
-        PlayerSettings.Android.useCustomKeystore = true;
-        PlayerSettings.Android.keystoreName = keystoreName;
-      }
-#endif
-      // Can't use out variable declaration as Unity 2018 doesn't support it
-      string keystorePass;
-      if (options.TryGetValue("androidKeystorePass", out keystorePass) && !string.IsNullOrEmpty(keystorePass))
-        PlayerSettings.Android.keystorePass = keystorePass;
-      
-      string keyaliasName;
-      if (options.TryGetValue("androidKeyaliasName", out keyaliasName) && !string.IsNullOrEmpty(keyaliasName))
-        PlayerSettings.Android.keyaliasName = keyaliasName;
-
-      string keyaliasPass;
-      if (options.TryGetValue("androidKeyaliasPass", out keyaliasPass) && !string.IsNullOrEmpty(keyaliasPass))
-        PlayerSettings.Android.keyaliasPass = keyaliasPass;
-      
+      ApplyPasswords(options);
       string androidTargetSdkVersion;
       if (options.TryGetValue("androidTargetSdkVersion", out androidTargetSdkVersion) && !string.IsNullOrEmpty(androidTargetSdkVersion))
       {
@@ -113,6 +94,28 @@ namespace UnityBuilderAction.Input
         }
 #endif
       }
+    }
+
+    public static void ApplyPasswords(Dictionary<string, string> options) {
+#if UNITY_2019_1_OR_NEWER
+      if (options.TryGetValue("androidKeystoreName", out string keystoreName) &&
+        !string.IsNullOrEmpty(keystoreName)) {
+        PlayerSettings.Android.useCustomKeystore = true;
+        PlayerSettings.Android.keystoreName = keystoreName;
+      }
+#endif 
+      // Can't use out variable declaration as Unity 2018 doesn't support it
+      string keystorePass;
+      if (options.TryGetValue("androidKeystorePass", out keystorePass) && !string.IsNullOrEmpty(keystorePass))
+        PlayerSettings.Android.keystorePass = keystorePass;
+
+      string keyaliasName;
+      if (options.TryGetValue("androidKeyaliasName", out keyaliasName) && !string.IsNullOrEmpty(keyaliasName))
+        PlayerSettings.Android.keyaliasName = keyaliasName;
+
+      string keyaliasPass;
+      if (options.TryGetValue("androidKeyaliasPass", out keyaliasPass) && !string.IsNullOrEmpty(keyaliasPass))
+        PlayerSettings.Android.keyaliasPass = keyaliasPass;
     }
 
     private static void SetDebugSymbols(string enumValueName)

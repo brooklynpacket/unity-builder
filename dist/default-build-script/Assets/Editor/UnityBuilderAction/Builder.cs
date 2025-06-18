@@ -64,6 +64,9 @@ namespace UnityBuilderAction
 
         // Set it as active
         BuildProfile.SetActiveBuildProfile(buildProfile);
+        
+        // If set, apply android Keystore passwords, these are not stored in BuildProfiles
+        AndroidSettings.ApplyPasswords(options);
 
         // Define BuildPlayerWithProfileOptions
         buildPlayerOptions = new BuildPlayerWithProfileOptions {
