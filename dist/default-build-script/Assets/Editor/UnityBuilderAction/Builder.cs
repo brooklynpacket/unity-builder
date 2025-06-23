@@ -65,13 +65,28 @@ namespace UnityBuilderAction
         // Set it as active
         BuildProfile.SetActiveBuildProfile(buildProfile);
         
+        // Check output target vs Profile type
+        string buildPath = options["customBuildPath"];
+        if (EditorUserBuildSettings.buildAppBundle && buildPath.EndsWith("apk"))
+        {
+          Debug.Log("Mismatched Android export type for build profile:\n" + buildProfile.name +
+                    "\nExpected .aab, but got .apk, changing to .aab");
+          buildPath = buildPath.Substring(0, buildPath.Length - 3) + "aab";
+        }
+        if (!EditorUserBuildSettings.buildAppBundle && buildPath.EndsWith("aab"))
+        {
+          Debug.Log("Mismatched Android export type for build profile:\n" + buildProfile.name +
+                    "\nExpected .apk, but got .aab, changing to .apk");
+          buildPath = buildPath.Substring(0, buildPath.Length - 3) + "apk";
+        }
+        
         // If set, apply android Keystore passwords, these are not stored in BuildProfiles
         AndroidSettings.ApplyPasswords(options);
 
         // Define BuildPlayerWithProfileOptions
         buildPlayerOptions = new BuildPlayerWithProfileOptions {
             buildProfile = buildProfile,
-            locationPathName = options["customBuildPath"],
+            locationPathName = buildPath,
             options = buildOptions,
         };
 #else
