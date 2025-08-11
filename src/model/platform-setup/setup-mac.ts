@@ -16,9 +16,7 @@ class SetupMac {
       await SetupMac.installUnityHub(buildParameters);
     }
 
-    if (!fs.existsSync(unityEditorPath.replace(/"/g, ''))) {
-      await SetupMac.installUnity(buildParameters);
-    }
+    await SetupMac.installUnity(buildParameters);
 
     await SetupMac.setEnvironmentVariables(buildParameters, actionFolder);
   }
