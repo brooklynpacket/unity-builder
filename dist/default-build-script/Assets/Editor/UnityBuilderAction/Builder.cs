@@ -56,7 +56,7 @@ namespace UnityBuilderAction
       // of either `UnityEditor.BuildPlayerOptions` or `UnityEditor.BuildPlayerWithProfileOptions`
       dynamic buildPlayerOptions;
 
-      if (options["customBuildProfile"] != "") {
+      if (options.ContainsKey("customBuildProfile") && !string.IsNullOrEmpty(options["customBuildProfile"])) {
 
 #if UNITY_6000_0_OR_NEWER
         // Load build profile from Assets folder
