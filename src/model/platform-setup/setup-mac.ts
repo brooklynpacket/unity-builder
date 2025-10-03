@@ -163,7 +163,7 @@ class SetupMac {
       silent,
       ignoreReturnCode: true,
     });
-    if (errorCode) {
+    if (!silent && errorCode) {
       throw new Error(`There was an error installing the Unity Editor. See logs above for details.`);
     }
 
