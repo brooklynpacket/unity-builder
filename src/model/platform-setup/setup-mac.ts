@@ -16,7 +16,9 @@ class SetupMac {
       await SetupMac.installUnityHub(buildParameters);
     }
 
-    await SetupMac.installUnity(buildParameters);
+    !fs.existsSync(unityEditorPath.replace(/"/g, ''))
+      ? await SetupMac.installUnity(buildParameters)
+      : await SetupMac.updateUnity(buildParameters);
 
     await SetupMac.setEnvironmentVariables(buildParameters, actionFolder);
   }
@@ -121,6 +123,14 @@ class SetupMac {
   }
 
   private static async installUnity(buildParameters: BuildParameters, silent = false) {
+    await SetupMac.executeUnityHubCLI('install', buildParameters, silent);
+  }
+
+  private static async updateUnity(buildParameters: BuildParameters, silent = true) {
+    await SetupMac.executeUnityHubCLI('install-modules', buildParameters, silent);
+  }
+
+  private static async executeUnityHubCLI(method: string, buildParameters: BuildParameters, silent = false) {
     const unityEditorPath = `/Applications/Unity/Hub/Editor/${buildParameters.editorVersion}`;
     const key = `Cache-MacOS-UnityEditor-With-Module-${buildParameters.targetPlatform}@${buildParameters.editorVersion}`;
 
