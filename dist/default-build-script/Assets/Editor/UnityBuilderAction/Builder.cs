@@ -46,10 +46,6 @@ namespace UnityBuilderAction
         var buildProfile = AssetDatabase.LoadAssetAtPath<BuildProfile>(buildProfilePath)
                            ?? throw new Exception("Build profile file not found at path: " + buildProfilePath);
 
-#if !BUILD_PROFILE_LOADED
-        throw new Exception("Build profile's define symbol not present before script execution; shouldn't happen");
-#endif // BUILD_PROFILE_LOADED
-
         // no need to set active profile, as already set by `-activeBuildProfile` CLI argument
         // BuildProfile.SetActiveBuildProfile(buildProfile);
         Debug.Log($"build profile: {buildProfile.name}");
@@ -65,10 +61,6 @@ namespace UnityBuilderAction
 #endif // UNITY_6000_0_OR_NEWER
 
       } else {
-
-#if BUILD_PROFILE_LOADED
-        throw new Exception("Build profile's define symbol present; shouldn't happen");
-#endif // BUILD_PROFILE_LOADED
 
         // Gather values from project
         var scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(s => s.path).ToArray();
