@@ -149,7 +149,7 @@ class SetupMac {
     const execArguments: string[] = [
       '--',
       '--headless',
-      'install',
+      method,
       ...['--version', buildParameters.editorVersion],
       ...['--changeset', unityChangeset.changeset],
       ...moduleArguments,
@@ -160,7 +160,7 @@ class SetupMac {
     // Ignoring return code because the log seems to overflow the internal buffer which triggers
     // a false error
     const errorCode = await exec(this.unityHubExecPath, execArguments, {
-      silent,
+      silent: false,
       ignoreReturnCode: true,
     });
     if (!silent && errorCode) {
