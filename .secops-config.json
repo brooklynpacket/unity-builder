@@ -1,0 +1,11 @@
+{
+    "jira_project_key": "MANTI",
+    "jira_domain": "SGN",
+    "jira_work_type": "3",
+    "jira_parent_key": null,
+    "jira_board": null,
+    "default_assignee": "alexe@jamcity.com",
+    "watchers": [
+        "alexe@jamcity.com"
+    ]
+}
